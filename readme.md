@@ -1,0 +1,1 @@
+# week manager project made with django
