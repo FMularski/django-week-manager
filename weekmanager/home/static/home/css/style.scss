@@ -1,0 +1,27 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: rgb(147, 186, 252);
+    width: 60%;
+    margin: auto;
+}
+
+header {
+    h1 {
+        text-align: center;
+    }
+}
+
+nav {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+
+    button {
+        margin: 0.5rem;
+    }
+}
