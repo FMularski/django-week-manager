@@ -1,3 +1,7 @@
 from django.contrib import admin
+from .models import Day, Category, Activity
 
-# Register your models here.
+
+admin.site.register(Day)
+admin.site.register(Activity)
+admin.site.register(Category)

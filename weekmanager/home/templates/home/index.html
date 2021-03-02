@@ -25,52 +25,36 @@
     </nav>
 
     <main>
-        <section class="day">
-            <h2>Day dd mm yyyy</h2>
+        {% for day in days %}
+            <section class="day">
+                <h2>{{day}}</h2>
 
-            <div class="activity">
-                <div class="activity-text">
-                    <p>activity name 00:00-00:00</p>
-                    <p>category name</p>
-                </div>
+                {% if day.activity_set.all %}
+                    {% for activity in day.activity_set.all %}
+                        <div class="activity">
+                            <div class="activity-text">
+                                <p>{{activity}}</p>
+                                <p>{{activity.category}}</p>
+                            </div>
 
-                <div class="activity-buttons">
-                    <img class="delete-btn" src="{% static 'home/img/delete.png' %}">
-                </div>
+                            <div class="activity-buttons">
+                                <img class="delete-btn" src="{% static 'home/img/delete.png' %}">
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <p>No activities for this day yet.</p>
+                {% endif %}
 
-            </div>
-            <div class="activity">
-                <div class="activity-text">
-                    <p>activity name 00:00-00:00</p>
-                    <p>category name</p>
-                </div>
 
-                <div class="activity-buttons">
-                    <img class="delete-btn" src="{% static 'home/img/delete.png' %}">
-                </div>
 
-            </div>
-
-            <p>Category 1 total time: xh</p>
-            <p>Category 2 total time: yh</p>
-            <p>Total time: x+yh</p>
-            <p>Calculated free time: zh</p>
-        </section>
-        <hr>
-        <section class="day">
-            <h2>Day dd mm yyyy</h2>
-
-            <div class="activity">
-                <div class="activity-text">
-                    <p>activity name 00:00-00:00</p>
-                    <p>category name</p>
-                </div>
-
-                <div class="activity-buttons">
-                    <img class="delete-btn" src="{% static 'home/img/delete.png' %}">
-                </div>
-            </div>
-        </section>
+                <!-- <p>Category 1 total time: xh</p>
+                <p>Category 2 total time: yh</p>
+                <p>Total time: x+yh</p>
+                <p>Calculated free time: zh</p> -->
+            </section>
+        {% endfor %}
+       
     </main>
 
     <footer></footer>
