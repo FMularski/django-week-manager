@@ -62,42 +62,45 @@
 
     <div id="shadow-panel" class="hidden"></div>
     <div id="form-panel">
-        <img class="close-form-btn" src="{% static 'home/img/delete.png' %}" alt="">
-        <form>
+        <img class="close-form-btn" src="{% static 'home/img/delete.png' %}" alt="close button">
+        <form id="activity-form" method="POST">
+            {% csrf_token %}
             <div>
               <label for="title" class="form-label">Title:</label>
-              <input type="text" class="form-control" id="title" required>
+              <input type="text" class="form-control" id="title" name="title" >
             </div>
             <div>
               <label for="" class="form-label">Category</label>
-              <select class="form-control" id="category" required>
-                <option value="">cat1</option>
-                <option value="">cat2</option>
-                <option value="">cat3</option>
-                <option value="">cat4</option>
+              <select class="form-control" id="category" name="category">
+                
+                {% for category in categories %}
+                    <option value="{{category.id}}">{{category.name}}</option>
+                {% endfor %}
+                
               </select>
             </div>
             <div>
                 <label for="date">Date:</label><br/>
-                <input type="date" id="date" required><br/><br/>
+                <input type="date" id="date" name="date" ><br/><br/>
                 <div id="from-to">
                     <div id="from">
                         <label for="time-start">From:</label><br/>
-                        <input type="time" id="time-start" required><br/>
+                        <input type="time" id="time-start" name="fr0m"  ><br/>
                     </div>
                     <div id="to">
                         <label for="time-end">To:</label><br/>
-                        <input type="time" id="time-end" required>
+                        <input type="time" id="time-end" name="to" >
                     </div>
                 </div>
             </div>
-            <button type="submit" class="btn btn-outline-success">OK</button>
+            <button id="ok-btn" type="submit" class="btn btn-outline-success">OK</button>
           </form>
     </div>
 
     <script src="{% static 'home/js/jquery-min.js' %}"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
     <script src="{% static 'home/js/home.js' %}"></script>
+    <script src="{% static 'home/js/home-forms.js' %}"></script>
     
 </body>
 </html>
