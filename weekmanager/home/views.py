@@ -2,49 +2,51 @@ from django.shortcuts import render
 from .models import Day
 from django.utils import timezone
 from datetime import timedelta
-from django.http import  HttpResponse
+from django.http import HttpResponse
 
 
 def index(request):
     """
-    days number limit is 7 to represent a whole week
+    remove the past days
+    filter and order descending 
+    if all 7 days passed change nothing, but if there is at least one, exclude it from deleting
     """
-    days_number_limit = 7
+    past_days = Day.objects.filter(date__lt=timezone.now()).order_by('-date') # [1:]
+    past_days = past_days if past_days.count() == 7 else past_days[1:]
 
-    """
-    free_spots tells how many days can be added
+    for d in past_days:
+        d.delete()
 
-    now check if any days exist at all, if first day does not exists (so no day does)
-    set free_spots to 7
-    """
-    if not Day.objects.first():
-        free_spots = days_number_limit
+
+    if not Day.objects.count():
+        """
+        if there is no days, take today as the current last day
+        free_slots are 7 minus this one day 
+        """
+        last_day = Day(date=timezone.now())
+        last_day.save()
+        free_slots = 6
     else:
         """
-        if any day exists free_spots has to be calculated
-        how to calculate: take 7 full spots then substract number of days
-        that havent come yet during this 7-day period  
+        get the last day, 
+        free slots is just 7 minus nthe number of existing days
         """
-        free_spots = days_number_limit - Day.objects.order_by('date').filter(date__gte=timezone.now()).count()
-
-        """
-        substract one to avoid duplicating first day during refreshing page
-        it is a result of date__gte also taking hours/minutes/second under consideration
-        so it is needed to check only day numbers, if they match it means it is the same day
-        and there is no 1 free spot for an extra one 
-        """
-        free_spots = free_spots - 1 if timezone.now().day == Day.objects.first().date.day else free_spots
+        last_day = Day.objects.order_by('date').last()
+        free_slots = 7 - Day.objects.count()
 
 
     """
-    now add <free_spots> number of days to fill all the spots and order by date
+    add bonus days up to 7
+    timedelta(days=i+1) to avoid adding today's day which has been added at the beginning
     """
-    for i in range(free_spots):
-        day = Day(date=timezone.now() + timedelta(days=i))
-        day.save()
-    days = Day.objects.all().order_by('date')
-
+    for i in range(free_slots):
+        new_day = Day(date=last_day.date + timedelta(days=i+1))
+        new_day.save()
+    
+    days = Day.objects.all()
 
     return render(request, 'home/index.html', {'days': days})
+
+
 
 
