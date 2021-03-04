@@ -1,10 +1,12 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from .models import Day, Activity, Category
 from django.utils import timezone
 from datetime import timedelta
 from django.http import HttpResponse
 from django.views.decorators.http import require_http_methods
 from .forms import ActivityForm
+from django.urls import reverse
+from django.contrib import messages
 
 def index(request):
     """
@@ -49,20 +51,18 @@ def index(request):
 
     return render(request, 'home/index.html', {'days': days, 'categories': categories})
 
+
 @require_http_methods(['POST'])
 def add(request):
-    # activity = read_activity_form(request)
-    # return HttpResponse(activity)
-    activity_form = ActivityForm(request.POST)
-    
-    if activity_form.is_valid():
-        title = activity_form.cleaned_data['title']    
-        category = Category.objects.get(pk=activity_form.cleaned_data['category'])
-        date = activity_form.cleaned_data['date']
-        fr0m = activity_form.cleaned_data['fr0m']
-        to = activity_form.cleaned_data['to']
+    activity = read_activity_form(request)
 
-        return HttpResponse(f'{title}, {category}, {date}, {fr0m}, {to}')
+    if activity:
+        activity.save()
+    else:
+        messages.error(request, 'Invalid input.')
+        
+    return redirect(reverse('home:index'))
+
 
 def update(request):
     return HttpResponse('U_P_D_A_T_E')
@@ -71,15 +71,16 @@ def update(request):
 def read_activity_form(request):
     activity_form = ActivityForm(request.POST)
     
-    if activity_form.is_valid():
-        title = activity_form.cleaned_data['title']    
-        category = Category.objects.get(pk=activity_form.cleaned_data['category'])
-        date = activity_form.cleaned_data['date']
-        fr0m = activity_form.cleaned_data['fr0m']
-        to = activity_form.cleaned_data['to']
+    if not activity_form.is_valid():
+        return None
 
-        return Activity(title=title, category=category, day=date, date_start=fr0m, date_end=to)
+    title = activity_form.cleaned_data['title']    
+    category = Category.objects.get(pk=activity_form.cleaned_data['category'])
+    date = Day.objects.get(pk=activity_form.cleaned_data['date'])
+    fr0m = activity_form.cleaned_data['fr0m']
+    to = activity_form.cleaned_data['to']
 
+    return Activity(title=title, category=category, day=date, time_start=fr0m, time_end=to) \
+        if fr0m < to else None
     
-
-
+    

@@ -25,17 +25,11 @@ class Category(models.Model):
 
 class Activity(models.Model):
     title = models.CharField(max_length=255, null=False)
-    date_start = models.DateTimeField()
-    date_end = models.DateTimeField()
+    time_start = models.TimeField(null=True)
+    time_end = models.TimeField(null=True)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
     day = models.ForeignKey(Day, on_delete=models.CASCADE, null=True)
 
     def __str__(self):
-        start_time_h = front_zero(self.date_start.hour) 
-        start_time_m = front_zero(self.date_start.minute)
-        end_time_h = front_zero(self.date_end.hour)
-        end_time_m = front_zero(self.date_end.minute)
-
-
-        return f'{self.title} {start_time_h}:{start_time_m} - {end_time_h}:{end_time_m}'
-
+        return f'{self.title} {front_zero(self.time_start.hour)}:{front_zero(self.time_start.minute)} ' \
+        f' - {front_zero(self.time_end.hour)}:{front_zero(self.time_end.minute)}'

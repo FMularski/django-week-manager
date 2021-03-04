@@ -21,10 +21,15 @@
     
     <nav>
         <button id="add-btn" class="btn btn-outline-success">+ Add</button>
-        <button id="update-btn" class="btn btn-outline-success">Update</button>
     </nav>
 
     <main>
+        {% if messages %}
+            {% for message in messages %}
+                <h4 class="{{message.level_tag}}-message">{{message}}</h4>
+            {% endfor %}
+        {% endif %}
+
         {% for day in days %}
             <section class="day">
                 <h2>{{day}}</h2>
@@ -72,16 +77,20 @@
             <div>
               <label for="" class="form-label">Category</label>
               <select class="form-control" id="category" name="category">
-                
                 {% for category in categories %}
                     <option value="{{category.id}}">{{category.name}}</option>
                 {% endfor %}
-                
               </select>
             </div>
             <div>
                 <label for="date">Date:</label><br/>
-                <input type="date" id="date" name="date" ><br/><br/>
+                <select class="form-control" id="date" name="date">
+                    {% for day in days %}
+                        <option value="{{day.id}}">{{day}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div>
                 <div id="from-to">
                     <div id="from">
                         <label for="time-start">From:</label><br/>

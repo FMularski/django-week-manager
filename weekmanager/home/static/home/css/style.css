@@ -4,6 +4,7 @@
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
   font-family: 'Rubik', sans-serif;
+  color: #198754;
 }
 
 body {
@@ -211,6 +212,14 @@ main {
 
 #form-panel form input[type='time'] {
   width: 20%;
+}
+
+.error-message {
+  color: #fa6767;
+  font-weight: bold;
+  padding: 2rem 0rem 0rem 2rem;
+  -webkit-animation: bounce 0.5s ease-out;
+          animation: bounce 0.5s ease-out;
 }
 
 @-webkit-keyframes swoosh {
