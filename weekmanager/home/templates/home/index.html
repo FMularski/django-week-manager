@@ -36,29 +36,20 @@
 
                 {% if day.activity_set.all %}
                     {% for activity in day.activity_set.all %}
-                        <div class="activity">
+                        <div class="activity" act-id="{{activity.id}}" title="{{activity.title}}" category-id={{activity.category.id}} day-id="{{day.id}}" from="{{activity.time_start}}" to="{{activity.time_end}}">
                             <div class="activity-text">
                                 <p>{{activity}}</p>
                                 <p>{{activity.category}}</p>
                             </div>
 
                             <div class="activity-buttons">
-                                <!-- <a href="{% url 'home:delete' activity.id %}"> -->
-                                    <img class="delete-btn" act-id="{{activity.id}}" src="{% static 'home/img/delete.png' %}">
-                                <!-- </a> -->
+                                    <img class="delete-btn" src="{% static 'home/img/delete.png' %}">
                             </div>
                         </div>
                     {% endfor %}
                 {% else %}
                     <p>No activities for this day yet.</p>
                 {% endif %}
-
-
-
-                <!-- <p>Category 1 total time: xh</p>
-                <p>Category 2 total time: yh</p>
-                <p>Total time: x+yh</p>
-                <p>Calculated free time: zh</p> -->
             </section>
             <hr>
         {% endfor %}
@@ -111,7 +102,6 @@
     <script src="{% static 'home/js/jquery-min.js' %}"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
     <script src="{% static 'home/js/home.js' %}"></script>
-    <script src="{% static 'home/js/home-forms.js' %}"></script>
     
 </body>
 </html>

@@ -54,13 +54,24 @@ def index(request):
 
 @require_http_methods(['POST'])
 def create(request):
+    """
+    get activity object by using the helper method
+    """
     activity = read_activity_form(request)
 
     if activity:
         activity.save()
     else:
+        """
+        if helper method did not return an activity
+        create django flash message to inform the user 
+        about an error
+        """
         messages.error(request, 'Invalid input.')
         
+    """
+    redirect to index when job is done
+    """
     return redirect(reverse('home:index'))
 
 
@@ -71,13 +82,49 @@ def delete(request, activity_id):
     return redirect(reverse('home:index'))
 
 
-def update(request):
-    return HttpResponse('U_P_D_A_T_E')
+@require_http_methods(['POST'])
+def update(request, activity_id):
+    """
+    two activities here:
+    'updated_activity' is an activity object returned by the helper function - THIS ONE IS NOT SAVED IN THE DB
+    'activity' is an activity object that will be updated - THIS ONE IS SAVED IN THE DB  
+    """
+    updated_activity = read_activity_form(request)
+    activity = get_object_or_404(Activity, pk=activity_id)
+
+    """
+    if the helper function returned an activity object
+    updte all fields of the object that is being updated
+    then save it and add success flash message
+    """
+    if updated_activity:
+        activity.title = updated_activity.title
+        activity.category = updated_activity.category
+        activity.day = updated_activity.day
+        activity.time_start = updated_activity.time_start
+        activity.time_end = updated_activity.time_end
+        activity.save()
+        messages.success(request, 'Activity updated.')
+    else:
+        messages.error(request, 'Invalid input.')
+
+    return redirect(reverse('home:index'))
     
 
 def read_activity_form(request):
+    """
+    this is a helper function
+    creates an ActivityForm object (defined in forms.py) based on 
+    POST dictionary of the request
+    """
     activity_form = ActivityForm(request.POST)
     
+    """
+    is_valid method validates the form
+    if success, it creates a dictionary 'cleaned_data'
+    all values are accessible there
+    if failure, the function return None instead of an activity object
+    """
     if not activity_form.is_valid():
         return None
 
@@ -87,6 +134,9 @@ def read_activity_form(request):
     fr0m = activity_form.cleaned_data['fr0m']
     to = activity_form.cleaned_data['to']
 
+    """
+    if everything is good create activity object based on the read values
+    """
     return Activity(title=title, category=category, day=date, time_start=fr0m, time_end=to) \
         if fr0m < to else None
     
