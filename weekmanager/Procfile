@@ -1,1 +1,1 @@
-web: gunicorn week-manager.wsgi --log-file - 
+web: gunicorn weekmanager.wsgi --log-file - 
