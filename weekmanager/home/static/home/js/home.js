@@ -29,11 +29,23 @@ $(document).ready(function(){
 
     deleteButtons.forEach( function(btn) {
         btn.addEventListener('click', function(){
+            const id = this.getAttribute('act-id');
             const activity = this.parentElement.parentElement;
+            const daySection = activity.parentElement;
 
             activity.style.animation = 'swoosh .5s ease';
             activity.addEventListener('animationend', function (){
                 this.remove();
+
+                if (daySection.children.length == 1) {
+                    const p = document.createElement('p');
+                    p.innerHTML = "No activities for this day yet.";
+                    daySection.appendChild(p);
+                }
+
+                $.ajax({
+                    url: '/home/delete/' + id
+                })
             })
         })
     })

@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from .models import Day, Activity, Category
 from django.utils import timezone
 from datetime import timedelta
@@ -53,7 +53,7 @@ def index(request):
 
 
 @require_http_methods(['POST'])
-def add(request):
+def create(request):
     activity = read_activity_form(request)
 
     if activity:
@@ -61,6 +61,13 @@ def add(request):
     else:
         messages.error(request, 'Invalid input.')
         
+    return redirect(reverse('home:index'))
+
+
+def delete(request, activity_id):
+    activity_to_delete = get_object_or_404(Activity, pk=activity_id)
+    activity_to_delete.delete()
+
     return redirect(reverse('home:index'))
 
 

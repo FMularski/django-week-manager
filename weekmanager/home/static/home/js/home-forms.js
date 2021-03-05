@@ -3,6 +3,6 @@ $(document).ready(function (){
     const activityForm = document.querySelector('#activity-form');
 
     addBtn.addEventListener('click', function(){
-        activityForm.action = '/home/add/';
+        activityForm.action = '/home/create/';
     })
 })

@@ -43,7 +43,9 @@
                             </div>
 
                             <div class="activity-buttons">
-                                <img class="delete-btn" src="{% static 'home/img/delete.png' %}">
+                                <!-- <a href="{% url 'home:delete' activity.id %}"> -->
+                                    <img class="delete-btn" act-id="{{activity.id}}" src="{% static 'home/img/delete.png' %}">
+                                <!-- </a> -->
                             </div>
                         </div>
                     {% endfor %}

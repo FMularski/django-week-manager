@@ -5,6 +5,7 @@ app_name = 'home'
 
 urlpatterns = [
     path('', views.index, name='index'),
-    path('add/', views.add, name='add'),
-    path('update/', views.update, name='update')
+    path('create/', views.create, name='create'),
+    path('update/', views.update, name='update'),
+    path('delete/<int:activity_id>/', views.delete, name='delete')
 ]
