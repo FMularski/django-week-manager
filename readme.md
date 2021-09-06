@@ -3,12 +3,14 @@
 ![GitHub repo size](https://img.shields.io/github/repo-size/FMularski/django-week-manager) 
 ![Lines of code](https://img.shields.io/tokei/lines/github/FMularski/django-week-manager?color=orange)
 ![GitHub top language](https://img.shields.io/github/languages/top/FMularski/django-week-manager?color=green)
+![Website](https://img.shields.io/website?url=https%3A%2F%2Fw33k-manager.herokuapp.com%2F?)
 
 ## Created with
 * Django 3.1.7
 * AWS
   * S3 Bucket
   * RDS PostgreSQL
+  * jQuery, AJAX
 
 ## About
 Week Manager is a simple django web application created for managing weekly activities. 
