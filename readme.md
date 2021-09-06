@@ -10,7 +10,7 @@
 * AWS
   * S3 Bucket
   * RDS PostgreSQL
-  * jQuery, AJAX
+* jQuery, AJAX
 
 ## About
 Week Manager is a simple django web application created for managing weekly activities. 
