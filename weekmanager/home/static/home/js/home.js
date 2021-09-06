@@ -47,7 +47,7 @@ $(document).ready(function(){
     // set form action to create when clicking add button
     addBtn.addEventListener('click', function(){
         openForm();
-        activityForm.action = '/home/create/';
+        activityForm.action = '/create/';
     })
 
     // - clicking on an activity opens activity form
@@ -59,7 +59,7 @@ $(document).ready(function(){
             if(e.target === this) {
                 openForm();
                 const id = activity.getAttribute('act-id');
-                activityForm.action = '/home/update/' + id + '/';
+                activityForm.action = '/update/' + id + '/';
 
                 titleField.value = this.getAttribute('title');
                 categoryField.value = this.getAttribute('category-id');
@@ -92,7 +92,7 @@ $(document).ready(function(){
                 }
 
                 $.ajax({
-                    url: '/home/delete/' + id
+                    url: '/delete/' + id
                 })
             })
         })
